@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trắc nghiệm ôn tập</title>
+<style>
+:root{--bg:#f7f7f5;--fg:#1f1f1d;--card:#fff;--bd:#dcdcd6;--ac:#1d6fd6;--ok:#15803d;--okb:#dcfce7;--no:#b91c1c;--nob:#fee2e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17181a;--fg:#ececea;--card:#222326;--bd:#383a3e;--ac:#6aa9f5;--ok:#4ade80;--okb:#14331f;--no:#f87171;--nob:#3b1818;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17181a;--fg:#ececea;--card:#222326;--bd:#383a3e;--ac:#6aa9f5;--ok:#4ade80;--okb:#14331f;--no:#f87171;--nob:#3b1818;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif;padding:14px}
+main{max-width:680px;margin:0 auto}
+h1{font-size:1.25rem;margin:0 0 4px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.9rem}
+.q{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:10px 0}
+.q h3{font-size:1rem;margin:0 0 8px;font-weight:600}
+.o{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;margin:6px 0;cursor:pointer}
+.o b{color:var(--ac);min-width:1.2ch}
+.o.sel{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.o.ok{border-color:var(--ok);background:var(--okb)}
+.o.bad{border-color:var(--no);background:var(--nob)}
+.done .o{cursor:default}
+button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:600}
+button.g{background:transparent;color:var(--ac);border:1px solid var(--ac)}
+#res{font-weight:700;font-size:1.1rem;margin:10px 0}
+.note{font-size:.8rem;opacity:.7;margin-top:6px}
+</style>
+</head>
+<body>
+<main>
+<h1>Trắc nghiệm ôn tập (40 câu)</h1>
+<div class="top"><span id="prog">Đã chọn 0/40</span><span><button class="g" id="rs">Làm lại</button> <button id="sb">Nộp bài</button></span></div>
+<div id="res"></div>
+<div id="list"></div>
+<p class="note">Đáp án của một số câu (1, 10, 13, 19, 22, 28, 30, 31, 34, 37, 39, 40) chưa được kiểm chứng, nên đối chiếu tài liệu. Phương án D của câu 30 bị cắt trong ảnh gốc.</p>
+</main>
+<script>
+var D=[
+["Súng tiểu liên AK bao gồm bao nhiêu bộ phận chính?",["12 bộ phận chính.","13 bộ phận chính.","14 bộ phận chính.","11 bộ phận chính."],3],
+["Thời hạn thực hiện nghĩa vụ tham gia Công an nhân dân là",["20 tháng.","18 tháng.","22 tháng.","24 tháng."],3],
+["Một trong những trường hợp công dân không được đăng ký nghĩa vụ quân sự là",["Không bị tước quyền phục vụ trong công an nhân dân.","Không bị tước quyền phục vụ trong quân đội nhân dân.","Bị tước quyền phục vụ trong lực lượng vũ trang nhân dân.","Không phải chấp hành hình phạt tù, cải tạo không giam giữ, quản chế."],2],
+["Biên giới quốc gia trên đất liền được hoạch định và đánh dấu trên thực địa bằng hệ thống gì?",["Hàng rào biên giới.","Cột mốc giới.","Tọa độ.","Mốc quốc giới."],1],
+["Tổ chức, cá nhân được thực hiện nội dung nào dưới đây trong vùng đặc quyền kinh tế và thềm lục địa Việt Nam?",["Khoan, đào trái phép.","Tiến hành nghiên cứu khoa học trái phép.","Xây dựng, lắp đặt, sử dụng trái phép các thiết bị, công trình nhân tạo.","Nghiên cứu khoa học có mục đích hoà bình."],3],
+["Quốc hội nước CHXHCN Việt Nam khoá IX, kỳ họp thứ năm đã thông qua Nghị quyết phê chuẩn Công ước LHQ về Luật Biển năm 1982 vào ngày nào?",["16/6/1994.","10/11/1994.","16/11/1994.","23/6/1994."],3],
+["Ranh giới ngoài thềm lục địa cách đường cơ sở không quá bao nhiêu hải lí?",["10 hải lí.","350 hải lí.","200 hải lí.","12 hải lí."],1],
+["Trường hợp thân nhân của hạ sĩ quan, binh sĩ tại ngũ nào dưới đây không được hưởng chế độ bảo hiểm y tế theo quy định của Luật Bảo hiểm y tế?",["Ông, bà nội.","Bố, mẹ vợ hoặc bố, mẹ chồng.","Bố, mẹ đẻ.","Người nuôi dưỡng hợp pháp."],0],
+["Công dân nam được đào tạo trình độ cao đẳng, đại học đã được tạm hoãn gọi nhập ngũ trong thời gian một khoá đào tạo của một trình độ đào tạo thì tuyển chọn và gọi nhập ngũ đến",["Hết 29 tuổi.","Hết 26 tuổi.","Hết 27 tuổi.","Hết 28 tuổi."],2],
+["Công ước Liên hợp quốc về Luật Biển năm 1982 là gì?",["Điều ước quốc tế đa phương.","Điều ước quốc tế khu vực.","Điều ước quốc tế toàn cầu.","Điều ước quốc tế song phương."],0],
+["Kéo thả từ thích hợp: Tổ quốc Việt Nam là ____, không được xâm phạm.",["Cao cả","Vinh quang","Bất khả","Thiêng liêng"],3],
+["Phạt tiền từ 50.000.000 đồng đến 75.000.000 đồng đối với hành vi nào sau đây?",["Gian dối trong quá trình khám sức khỏe.","Không nhận quyết định gọi khám sức khỏe nghĩa vụ quân sự của cấp có thẩm quyền mà không có lý do chính đáng.","Không chấp hành quyết định gọi kiểm tra, khám sức khỏe nghĩa vụ quân sự.","Không chấp hành lệnh gọi nhập ngũ."],3],
+["Nghị định số 70/2019/NĐ-CP ngày 23/8/2019 (sửa đổi, bổ sung bởi Nghị định 184/2025/NĐ-CP) gồm mấy chương, điều?",["7 chương, 20 điều.","4 chương, 19 điều.","5 chương, 24 điều.","4 chương, 12 điều."],1],
+["Một trong những mục tiêu của chiến lược bảo vệ Tổ quốc Việt Nam xã hội chủ nghĩa trong tình hình mới là",["kiên định mục tiêu độc lập dân tộc gắn liền với chủ nghĩa xã hội.","phát huy sức mạnh đại đoàn kết toàn dân tộc.","tranh thủ tối đa mọi thuận lợi từ bên ngoài.","xây dựng xã hội trật tự, kỷ cương, an toàn, lành mạnh để phát triển đất nước theo định hướng xã hội chủ nghĩa."],3],
+["Người nào không chấp hành đúng quy định của pháp luật về đăng ký nghĩa vụ quân sự, không chấp hành lệnh gọi nhập ngũ, lệnh gọi tập trung huấn luyện, đã bị xử phạt vi phạm hành chính về hành vi này hoặc đã bị kết án về tội này, chưa được xóa án tích mà còn vi phạm, thì",["Tất cả đều đúng.","Bị phạt cải tạo không giam giữ đến 03 năm hoặc phạt tù từ 03 tháng đến 02 năm.","Bị phạt cải tạo không giam giữ đến 02 năm hoặc phạt tù từ 03 tháng đến 02 năm.","Bị phạt tù từ 03 tháng đến 02 năm."],2],
+["Thanh niên đã tốt nghiệp đại học, cao đẳng, trung cấp tình nguyện phục vụ tại đoàn kinh tế – quốc phòng theo Đề án do Thủ tướng Chính phủ quyết định trong bao lâu thì được công nhận hoàn thành nghĩa vụ quân sự tại ngũ trong thời bình?",["Từ đủ 48 tháng trở lên.","Từ đủ 36 tháng trở lên.","Từ đủ 24 tháng trở lên.","Từ đủ 18 tháng trở lên."],2],
+["Khi bắn phát một, tốc độ bắn của súng tiểu liên AK là bao nhiêu?",["40 phát/ phút.","80 phát/ phút.","100 phát/ phút.","60 phát/ phút."],0],
+["Khi lắp đủ 30 viên đạn, khối lượng của súng tiểu liên AK là",["5.3 kg.","7.3 kg.","4.3 kg.","6.3 kg."],2],
+["Ban Chỉ huy quân sự cấp xã chuyển Lệnh gọi đăng kí nghĩa vụ quân sự đến công dân cư trú tại địa phương trước thời hạn đăng kí nghĩa vụ quân sự bao nhiêu ngày?",["9 ngày.","10 ngày.","8 ngày.","11 ngày."],1],
+["Nội dung nào sau đây không phản ánh đúng quy tắc tháo, lắp súng tiểu liên AK?",["Người tháo, lắp phải nắm vững cấu tạo súng.","Không cần khám súng trước khi tháo, lắp.","Dùng đúng phụ tùng, làm đúng thứ tự động tác.","Chọn nơi khô ráo, sạch sẽ để tháo, lắp súng."],1],
+["Một trong những trường hợp công dân được tạm hoãn gọi nhập ngũ là gì?",["Một con của bệnh binh suy giảm khả năng lao động từ 81% trở lên.","Cán bộ, công chức, viên chức, thanh niên xung phong được điều động đến công tác, làm việc ở vùng có điều kiện kinh tế – xã hội đặc biệt khó khăn theo quy định của pháp luật.","Một con của người nhiễm chất độc da cam suy giảm khả năng lao động từ 81% trở lên.","Cán bộ, công chức, viên chức, thanh niên xung phong được điều động đến công tác, làm việc ở vùng có điều kiện kinh tế – xã hội đặc biệt khó khăn theo quy định của pháp luật từ 24 tháng trở lên."],3],
+["Trong hồ sơ đăng kí nghĩa vụ quân sự lần đầu cần có",["phiếu tự khai sức khỏe nghĩa vụ quân sự.","giấy chứng nhận đăng kí nghĩa vụ quân sự.","bản chụp giấy khai sinh và sổ hộ khẩu.","sổ hộ khẩu và bản chụp căn cước công dân."],0],
+["Hằng năm, gọi công dân nhập ngũ một lần vào thời gian nào?",["Tháng 1 hoặc tháng 2.","Tháng 11 hoặc tháng 12.","Tháng 4 hoặc tháng 5.","Tháng 2 hoặc tháng 3."],0],
+["Mặt phẳng đứng từ biên giới quốc gia trên đất liền và biên giới quốc gia trên biển lên vùng trời được gọi là gì?",["Biên giới quốc gia trên biển.","Biên giới quốc gia trên đất liền.","Biên giới quốc gia trong lòng đất.","Biên giới quốc gia trên không."],3],
+["Tình huống: A Páo chăn trâu ở khu vực biên giới, định lùa trâu qua bên kia cột mốc biên giới có bãi cỏ xanh tốt, trâu ăn no là quay về Việt Nam ngay. Nếu là bạn thân của A Páo, em nên lựa chọn cách ứng xử nào?",["Khuyên A Páo không nên thực hiện hành vi đó.","Cùng với A Páo lùa trâu sang bên kia biên giới.","Khuyến khích A Páo nên thực hiện hành vi đó.","Mặc kệ, vì đó không phải là việc của mình."],0],
+["Công dân là một con của bệnh binh suy giảm khả năng lao động bao nhiêu phần trăm thì được miễn gọi nhập ngũ?",["Dưới 61%.","Từ 81% trở lên.","Từ 71% đến 80%.","Từ 61% đến 80%."],1],
+["Một trong những quan điểm của chiến lược bảo vệ Tổ quốc Việt Nam xã hội chủ nghĩa trong tình hình mới là",["phát huy tối đa sức mạnh của nhân dân.","dựa vào các nước xã hội chủ nghĩa trên thế giới.","coi trọng sự giúp đỡ của các nước trên thế giới.","phát huy cao nhất sức mạnh của dân tộc kết hợp với sức mạnh thời đại."],3],
+["Súng trung liên RPD cỡ 7,62mm là loại súng gì?",["Nòng dài.","Tự động nạp đạn.","Trang bị cho một người sử dụng.","Nòng dài, tự động nạp đạn, trang bị cho từng người sử dụng."],3],
+["Kéo thả từ thích hợp: Đối với súng tiểu liên AK, khi đánh gần có thể dùng ____ để tiêu diệt sinh lực địch điền từ cong thiếu vào chỗ trống.",["Lưỡi lê","Báng súng","Tay cầm","Thông nòng"],0],
+["Đâu là cấu tạo chính xác nhất của súng tiểu liên AK? (phương án D bị cắt trong ảnh; A, B, C chỉ khác nhau ở các bộ phận như bộ phận đẩy về, ống dẫn thoi đẩy)",["Nòng súng, bộ phận ngắm, hộp khóa nòng và nắp hộp khóa nòng, bệ khóa nòng và thoi đẩy, khóa nòng, bộ phận cò, ống dẫn thoi đẩy và ốp lót tay, báng súng và tay cầm, hộp tiếp đạn, lê.","Nòng súng, bộ phận ngắm, hộp khóa nòng và nắp hộp khóa nòng, bệ khóa nòng và thoi đẩy, khóa nòng, bộ phận cò, bộ phận đẩy về, ốp lót tay, báng súng và tay cầm, hộp tiếp đạn, lê.","Nòng súng, bộ phận ngắm, nắp hộp khóa nòng, bệ khóa nòng và thoi đẩy, khóa nòng, bộ phận cò, bộ phận đẩy về, ống dẫn thoi đẩy và ốp lót tay, báng súng và tay cầm, hộp tiếp đạn, lê.","Nòng súng, bộ phận … (bị cắt trong ảnh)"],1],
+["Tầm bắn thẳng đối với mục tiêu người nằm của súng tiểu liên AK là bao nhiêu?",["800 m.","500 m.","350 m.","400 m."],2],
+["Ở Việt Nam, Ngày biên phòng toàn dân được tổ chức vào",["ngày 3/3 hằng năm.","ngày 18/3 hằng năm.","ngày 22/12 hằng năm.","ngày 7/5 hằng năm."],1],
+["Hộp tiếp đạn của súng tiểu liên AK có thể chứa được bao nhiêu viên đạn?",["50 viên đạn.","60 viên đạn.","30 viên đạn.","40 viên đạn."],2],
+["Khi tháo súng tiểu liên AK, các bộ phận tháo ra phải đặt theo thứ tự",["từ trái qua phải.","từ trên xuống dưới.","từ dưới lên trên.","từ phải qua trái."],0],
+["Kéo thả từ thích hợp: Lợi dụng chức vụ, ____ làm trái quy định về nghĩa vụ quân sự là một trong những hành vi bị nghiêm cấm trong thực hiện Luật Nghĩa vụ quân sự.",["Hành pháp","Quyền hạn.","Quyền hành","Tư pháp"],1],
+["Nội dung nào sau đây không phản ánh đúng trách nhiệm của công dân trong việc quản lí, xây dựng và bảo vệ biên giới quốc gia?",["Chấp hành các quy định của pháp luật về biên giới quốc gia.","Tham gia phong trào tự quản đường biên, mốc quốc giới.","Vận chuyển qua biên giới những văn hóa phẩm độc hại.","Xây dựng, giữ gìn trật tự an toàn xã hội ở khu vực biên giới."],2],
+["Công dân không thực hiện đăng ký phục vụ trong ngạch dự bị theo quy định sẽ bị phạt tiền",["từ 8 000 000 đến 10 000 000.","từ 800 000 đến 1 000 000.","từ 5 000 000 đến 7 000 000.","từ 200 000 đến 600 000."],3],
+["Một trong những quan điểm của chiến lược bảo vệ Tổ quốc Việt Nam xã hội chủ nghĩa trong tình hình mới là",["Nhà nước bảo đảm và phát huy quyền làm chủ của nhân dân.","Thực hiện mục tiêu dân giàu, nước mạnh, dân chủ, công bằng, văn minh, mọi người có cuộc sống ấm no, tự do, hạnh phúc, có điều kiện phát triển toàn diện.","Quyền lực nhà nước là thống nhất, có sự phân công, phối hợp, kiểm soát giữa các cơ quan nhà nước trong việc thực hiện các quyền lập pháp, hành pháp, tư pháp.","Phát huy mạnh mẽ nội lực là nhân tố quyết định; đồng thời, tranh thủ tối đa mọi thuận lợi từ bên ngoài."],3],
+["Hạ sĩ quan và binh sĩ khi xuất ngũ được hưởng những khoản trợ cấp nào sau đây?",["Trợ cấp đất ở, nhà ở.","Tiền hao mòn tuổi thanh xuân.","Trợ cấp tạo việc làm do Chính phủ quy định.","Trợ cấp khó khăn cho gia đình và bản thân."],1],
+["Nghị định số 70/2019/NĐ-CP ngày 23/8/2019 của Chính phủ quy định về thực hiện nghĩa vụ tham gia Công an nhân dân gồm",["6 chương, 20 điều.","5 chương, 19 điều.","4 chương, 19 điều.","9 chương, 62 điều."],2]
+];
+var L="ABCD",S=[],done=false,list=document.getElementById("list");
+function render(){
+  list.className=done?"done":"";list.innerHTML="";
+  D.forEach(function(q,i){
+    var c=document.createElement("div");c.className="q";
+    c.innerHTML="<h3>Câu "+(i+1)+". "+q[0]+"</h3>";
+    q[1].forEach(function(t,j){
+      var o=document.createElement("div");o.className="o";
+      if(done){if(j===q[2])o.className+=" ok";else if(S[i]===j)o.className+=" bad";}
+      else if(S[i]===j)o.className+=" sel";
+      o.innerHTML="<b>"+L[j]+".</b><span>"+t+"</span>";
+      o.onclick=function(){if(done)return;S[i]=j;render();};
+      c.appendChild(o);
+    });
+    list.appendChild(c);
+  });
+  var n=S.filter(function(x){return x!==undefined}).length;
+  document.getElementById("prog").textContent="Đã chọn "+n+"/40";
+}
+document.getElementById("sb").onclick=function(){
+  var s=0;D.forEach(function(q,i){if(S[i]===q[2])s++;});
+  done=true;document.getElementById("res").textContent="Điểm: "+s+"/40";render();window.scrollTo(0,0);
+};
+document.getElementById("rs").onclick=function(){S=[];done=false;document.getElementById("res").textContent="";render();window.scrollTo(0,0);};
+render();
+</script>
+</body>
+</html>
